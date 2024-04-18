@@ -19,7 +19,7 @@ export default function App() {
   return (
     <View style={{ flex: 1, backgroundColor: "plum", padding: 60 }}>
       <Greet name='Vargas'/>
-      <Greet name='Obz'/>
+      <Greet name='Obed'/>
       {/* <Button title="Alert" onPress={() => Alert.alert("Invalid data!")} />
       <Button
         title="Alert2"
