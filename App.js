@@ -1,107 +1,56 @@
-import { useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  ImageBackground,
-  ScrollView,
-  Button,
-  Pressable,
-  Modal,
-  StatusBar,
-  ActivityIndicator,
-  Alert,
-} from "react-native";
-import Greet from "./Components/Greet";
-const logoImage = require("./assets/adaptive-icon.png");
-export default function App() {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+import {StyleSheet, SafeAreaView,Platform,ScrollView} from 'react-native'
+import PokemonCard from './components/PokemonCard';
+export default function App(){
+  const charmander={
+    name: "Charmander",
+    image: require('./assets/charmander.png'),
+    type: "Fire",
+    hp: 39,
+    moves: ["Stratch", "Ember","Growl","Leer"],
+    weaknesses: ["Water", "Rock"],
+  };
+  const squirtleData = {
+    name: "Squirtle",
+    image: require("./assets/squirtle.png"), // Replace with the actual image path
+    type: "Water",
+    hp: 44,
+    moves: ["Tackle", "Water Gun", "Tail Whip", "Withdraw"],
+    weaknesses: ["Electric", "Grass"],
+  };
+
+  const bulbasaurData = {
+    name: "Bulbasaur",
+    image: require("./assets/bulbasaur.png"), // Replace with the actual image path
+    type: "Grass",
+    hp: 45,
+    moves: ["Tackle", "Vine Whip", "Growl", "Leech Seed"],
+    weaknesses: ["Fire", "Ice", "Flying", "Psychic"],
+  };
+
+  const pikachuData = {
+    name: "Pikachu",
+    image: require("./assets/pikachu.png"), // Replace with the actual image path
+    type: "Electric",
+    hp: 35,
+    moves: ["Quick Attack", "Thunderbolt", "Tail Whip", "Growl"],
+    weaknesses: ["Ground"],
+  };
   return (
-    <View style={{ flex: 1, backgroundColor: "plum", padding: 60 }}>
-      <Greet name="Vargas" />
-      <Greet name="Obed" />
-    </View>
-  );
-}
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+      <PokemonCard {...charmander}/>
+      <PokemonCard {...squirtleData} />
+      <PokemonCard {...bulbasaurData} />
+      <PokemonCard {...pikachuData} />
+      </ScrollView>
 
-{
-  /* <ScrollView>
-<Button
-    title="Press"
-    onPress={() => alert("Button Pressed success")}
-    color="midnightblue"
-    // disabled
-  />
-  <Pressable onPress={()=>alert('Image pressed')}>
-  <Image source={logoImage} style={{ width: 300, height: 300 }} />
-  </Pressable>
-  <Pressable onPress={()=>alert('Text pressed')}>
-  <Text>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
-    fugiat unde maxime sit magnam dicta error nobis nihil qui esse
-    placeat, recusandae nemo amet alias. Asperiores quibusdam quam
-    dignissimos ab. Lorem ipsum dolor sit amet consectetur adipisicing
-    elit. Aperiam fugiat unde maxime sit magnam dicta error nobis nihil
-    qui esse placeat, recusandae nemo amet alias. Asperiores quibusdam
-    quam dignissimos ab.
-  </Text>
-  <Image source={logoImage} style={{ width: 300, height: 300 }} />
-  </Pressable>
-
-</ScrollView> */
+    </SafeAreaView>
+  )
 }
-
-{
-  /* <Button
-title="Press"
-onPress={() => setIsModalVisible(true)}
-color="midnightblue"
-/>
-<Modal
-visible={isModalVisible}
-onRequestClose={() => setIsModalVisible(false)}
-animationType="slide"
-presentationStyle="pageSheet"
->
-<View style={{ flex: 1, backgroundColor: "plum", padding: 60 }}>
-  <Text>Modal Content</Text>
-  <Button
-    title="Close"
-    color="red"
-    onPress={() => setIsModalVisible(false)}
-  />
-</View>
-</Modal> */
-}
-{
-  /* <ActivityIndicator  />
-      <ActivityIndicator size="large" />
-      <ActivityIndicator size="large"color="midnightblue" />
-      <ActivityIndicator size="large"color="midnightblue"animating={false} /> */
-}
-{
-  /* <StatusBar backgroundColor="#ccc"
-       barStyle="dark-content"
-        // hidden
-     /> */
-}
-{
-  /* <Button title="Alert" onPress={() => Alert.alert("Invalid data!")} />
-      <Button
-        title="Alert2"
-        onPress={() => Alert.alert("Invalid data!", "DOB Incorect")}
-      />
-       <Button
-        title="Alert3"
-        onPress={() => Alert.alert("Invalid data!", "DOB Incorect",[
-          {
-            text: 'Cancel',
-            onPress: ()=>alert('Cancel Pressed')
-          },
-          {
-            text: 'OK',
-            onPress: ()=>alert('OK Pressed')
-          }
-        ])}
-      /> */
-}
+const styles=StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+    paddingTop: Platform.OS==='android'?30:0,
+  }
+});
