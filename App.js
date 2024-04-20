@@ -12,6 +12,7 @@ import {
   Switch
 } from "react-native";
 import { useState } from "react";
+import LoginForm from "./components/LoginForm";
 
 export default function App() {
   const [name,setName]=useState('');
@@ -19,7 +20,7 @@ export default function App() {
   return (
 
   <SafeAreaView style={styles.container}>
-    <TextInput style={styles.input} value={name}onChangeText={setName}
+    {/* <TextInput style={styles.input} value={name}onChangeText={setName}
     placeholder="email@vargas.com"
     autoCorrect={false}
     autoCapitalize="none"
@@ -33,7 +34,8 @@ export default function App() {
     <Switch value={isDarkMode} onValueChange={()=>setisDarkMode((prev)=> !prev)}
     trackColor={{ false: "#767577", true: 'lightblue'}}
     thumbColor="#f4f4f4" />
-    </View>
+    </View> */}
+    <LoginForm/>
   </SafeAreaView>);
 }
 const styles = StyleSheet.create({
