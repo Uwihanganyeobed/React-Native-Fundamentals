@@ -1,9 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  FlatList,
+  StyleSheet,
+  StatusBar,
+  ActivityIndicator,
+  TextInput,
+  Button,
+} from "react-native";
 
-const App = () => {
+export default function App() {
   return (
-    <div>App</div>
-  )
+    <SafeAreaView style={styles.container}>
+      
+    </SafeAreaView>
+  );
 }
 
-export default App
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#f5f5f5",
+    paddingTop: StatusBar.currentHeight,
+  },
+})
