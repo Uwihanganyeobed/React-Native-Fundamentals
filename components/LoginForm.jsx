@@ -3,6 +3,26 @@ import { View, Text,Platform,Image,KeyboardAvoidingView, TextInput, Button, Styl
 export default function LoginForm() {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors]=useState({});
+
+  const validateForm=()=>{
+   let errors={};
+   if (!username) errors.username="Username is required"
+   if (!password) errors.password="Password is required"
+
+   setErrors(errors);
+
+   return Object.keys(errors).length === 0;
+  };
+
+const handleSubmit=()=>{
+   if(validateForm()){
+      console.log("Submittted", username, password);
+      setUserName('');
+      setPassword('');
+      setErrors({});
+   }
+}
   return (
     <KeyboardAvoidingView behavior="padding"keyboardVerticalOffset={Platform.OS=='ios'? 100: 0} style={styles.container}>
       <View style={styles.form}>
@@ -14,6 +34,8 @@ export default function LoginForm() {
           value={username}
           onChangeText={setUserName}
         />
+        {errors.username ? <Text style={styles.errorText}>{errors.username}</Text> : null
+        }
         <Text style={styles.label}>Password</Text>
         <TextInput
           style={styles.input}
@@ -22,7 +44,9 @@ export default function LoginForm() {
           value={password}
           onChangeText={setPassword}
         />
-        <Button title="Login" onPress={() => {}} />
+          {errors.password ? <Text style={styles.errorText}>{errors.password}</Text> : null
+        }
+        <Button title="Login" onPress={() => {handleSubmit()}} />
       </View>
     </KeyboardAvoidingView>
   );
@@ -65,5 +89,9 @@ const styles = StyleSheet.create({
    height: 200,
    alignSelf: 'center',
    marginBottom: 50
+  },
+  errorText: {
+   color: 'red',
+   marginBottom: 10,
   }
 });
