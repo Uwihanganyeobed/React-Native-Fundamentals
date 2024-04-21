@@ -1,215 +1,122 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
-  SafeAreaView,
-  FlatList,
-  StyleSheet,
+  Image,
+  ImageBackground,
+  ScrollView,
+  Button,
+  Pressable,
+  Modal,
   StatusBar,
   ActivityIndicator,
-  TextInput,
-  Button,
+  Alert,
+  StyleSheet,
+  SafeAreaView,
+  Platform
 } from "react-native";
-
+import Cart from "./Components/Core-Components/Cart";
+import Box from "./Components/RNLayout/Box";
+import Greet from "./Components/Core-Components/Greet";
+import StyleSheetAPI from "./Components/styleSheetAPI/StyleSheetAPI";
+import UIDynamic from "./Components/DynamicUI/UIDynamic";
+import UIWindow from "./Components/DynamicUI/UIWindow";
+import CustomButton from "./Components/DynamicUI/customButton/customButton.android";
+const logoImage = require("./assets/adaptive-icon.png");
 export default function App() {
-  const [postList, setPostList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-  //post requests
-  const [postTitle, setPostTitle] = useState("");
-  const [postBody, setPostBody] = useState("");
-  const [isPosting, setIsPosting] = useState(false);
-  //error handling
-  const [error, setError]=useState("")
-
-
-  const fetchData = async (limit = 10) => {
-    try{
-    const response = await fetch(
-      `https://jsonplaceholder.typicode.com/posts?_limit=${limit}`
-    );
-    const data = await response.json();
-    setPostList(data);
-    setIsLoading(false);
-    setError("")
-  }
-  catch(error){
-    console.error('error fetching data',error)
-    setIsLoading(false)
-    setError("Failed to fetch post list")
-  }
-  };
-
-  const handleRefresh = () => {
-    setRefreshing(true);
-    fetchData(20);
-    setRefreshing(false);
-  };
-  const addPost= async()=>{
-    setIsPosting(true)
-    try{
-    const response = await fetch(
-      "https://jsonplaceholder.typicode.com/posts",{
-        method: 'POST',
-        headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify({
-          title: postTitle,
-          body: postBody
-        })
-      }
-    );
-    const newPost= await response.json()
-    setPostList([newPost, ...postList])
-    setPostTitle("");
-    setPostBody("");
-    setIsPosting(false);
-    setError("")
-  }
-  catch(error){
-    console.error('error adding data',error)
-    setError("Failed to add new post")
-  }
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <SafeAreaView style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="0000ff" />
-        <Text>Loading...</Text>
-      </SafeAreaView>
-    );
-  }
+  const [count, setCount]=useState(0)
+  const [isModalVisible, setIsModalVisible] = useState(false);
   return (
-    <SafeAreaView style={styles.container}>
-      {error ? (
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{error}</Text>
-        </View>
-        
-      ):(
-      <>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Post title"
-            value={postTitle}
-            onChangeText={setPostTitle}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Post body"
-            value={postBody}
-            onChangeText={setPostBody}
-          />
-          <Button
-            title={isPosting ? "Adding..." : "Add post"}
-            onPress={addPost}
-            disabled={isPosting}
-          />
-        </View>
-        <View style={styles.listContainer}>
-          <FlatList
-            data={postList}
-            renderItem={({ item }) => {
-              return (
-                <View style={styles.card}>
-                  <Text style={styles.titleText}>{item.title}</Text>
-                  <Text style={styles.bodyText}>{item.body}</Text>
-                </View>
-              );
-            }}
-            ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
-            ListEmptyComponent={<Text>No Posts Found</Text>}
-            ListHeaderComponent={
-              <Text style={styles.headerText}>Post List</Text>
-            }
-            ListFooterComponent={
-              <Text style={styles.footerText}>End of List</Text>
-            }
-            refreshing={refreshing}
-            onRefresh={handleRefresh}
-          />
-        </View>
-
-      </>
-      )}
+    <SafeAreaView style={styles.safeContainer}>
+    <View style={{backgroundColor: 'plum', flex: 1}}>
+    {/* <StyleSheetAPI/> */}
+    {/* <UIDynamic/> */}
+    {/* <UIWindow/> */}
+    <CustomButton title="press me"onPress={()=>alert('pressed')}/>
+    </View>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
+const styles=StyleSheet.create({
+  safeContainer: {
+    flex: 1,
+    backgroundColor: 'plum'
+  },
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
-    paddingTop: StatusBar.currentHeight,
-  },
-  listContainer: {
-    flex: 1,
-    paddingHorizontal: 16,
-  },
-  card: {
-    backgroundColor: "white",
-    padding: 16,
-    borderRadius: 8,
-    borderWidth: 1,
-    marginBottom: 16,
-  },
-  titleText: {
-    fontSize: 30,
-  },
-  bodyText: {
-    fontSize: 24,
-    color: "#666666",
-  },
-  headerText: {
-    fontSize: 24,
-    textAlign: "center",
-    marginBottom: 12,
-  },
-  footerText: {
-    fontSize: 24,
-    textAlign: "center",
-    marginTop: 12,
-  },
-  loadingContainer: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-    paddingTop: StatusBar.currentHeight,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  inputContainer: {
-    backgroundColor: 'white',
-    padding: 16,
-    borderRadius: 8,
-    borderWidth: 1,
-    margin: 16,
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 8,
-    padding: 8,
-    borderRadius: 8,
-  },
-  errorContainer:{
-    backgroundColor: '#FFC0CB',
-    padding: 16,
-    borderRadius: 8,
-    borderWidth: 1,
-    margin: 16,
-    alignItems: "center"
-  },
-  errorText: {
-    color: "#D8000C",
-    fontSize: 16,
-    textAlign: 'center'
+    // // height: 300,
+    // // flexGrow: 1,
+    // // flexWrap: 'wrap',
+    // // rowGap: 20,
+    // // columnGap: 30,
+    // // gap: 20,
+    // // alignContent: 'space-around' ,
+    // marginTop: 30,
+    // borderWidth: 6,
+    // // flexDirection: 'row',
+    // // justifyContent: "flex-end",
+    // // alignItems: 'baseline',
+    // borderColor: 'lightblue'
   }
-});
+})
+
+{
+  /* <ScrollView>
+<Button
+    title="Press"
+    onPress={() => alert("Button Pressed success")}
+    color="midnightblue"
+    // disabled
+  />
+  <Pressable onPress={()=>alert('Image pressed')}>
+  <Image source={logoImage} style={{ width: 300, height: 300 }} />
+  </Pressable>
+  <Pressable onPress={()=>alert('Text pressed')}>
+  <Text>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
+    fugiat unde maxime sit magnam dicta error nobis nihil qui esse
+    placeat, recusandae nemo amet alias. Asperiores quibusdam quam
+    dignissimos ab. Lorem ipsum dolor sit amet consectetur adipisicing
+    elit. Aperiam fugiat unde maxime sit magnam dicta error nobis nihil
+    qui esse placeat, recusandae nemo amet alias. Asperiores quibusdam
+    quam dignissimos ab.
+  </Text>
+  <Image source={logoImage} style={{ width: 300, height: 300 }} />
+  </Pressable>
+
+</ScrollView> */
+}
+
+{
+  /* <Button
+title="Press"
+onPress={() => setIsModalVisible(true)}
+color="midnightblue"
+/>
+<Modal
+visible={isModalVisible}
+onRequestClose={() => setIsModalVisible(false)}
+animationType="slide"
+presentationStyle="pageSheet"
+>
+<View style={{ flex: 1, backgroundColor: "plum", padding: 60 }}>
+  <Text>Modal Content</Text>
+  <Button
+    title="Close"
+    color="red"
+    onPress={() => setIsModalVisible(false)}
+  />
+</View>
+</Modal> */
+}
+
+    // <View style={{ flex: 1, backgroundColor: "plum", padding: 60 }}>
+    //   <Greet name='Vargas'/>
+    //   <Greet name='Obed'/>
+    //   <View>
+    //     <Cart count={count}/>
+    //     <Button title="Increment Cart" onPress={()=>setCount(count+1)}  />
+    //     <Button title="Decrement Cart" onPress={()=>count>0 && setCount(count-1)} />
+    //     <Button title="Reset Cart" onPress={()=>setCount(0)} />
+    //   </View>
+    // </View>
