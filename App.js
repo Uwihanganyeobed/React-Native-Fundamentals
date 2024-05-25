@@ -1,6 +1,7 @@
 import {StyleSheet, SafeAreaView,Platform,ScrollView} from 'react-native'
 import PokemonCard from './components/PokemonCard';
 export default function App(){
+  
   const charmander={
     name: "Charmander",
     image: require('./assets/charmander.png'),
